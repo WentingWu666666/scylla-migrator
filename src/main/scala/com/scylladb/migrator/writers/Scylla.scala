@@ -15,8 +15,7 @@ object Scylla {
     target: TargetSettings.Scylla,
     renames: List[Rename],
     df: DataFrame,
-    timestampColumns: Option[TimestampColumns],
-    tokenRangeAccumulator: Option[TokenRangeAccumulator])(implicit spark: SparkSession): Unit = {
+    timestampColumns: Option[TimestampColumns])(implicit spark: SparkSession): Unit = {
     val connector = Connectors.targetConnector(spark.sparkContext.getConf, target)
     val writeConf = WriteConf
       .fromSparkConf(spark.sparkContext.getConf)
@@ -60,8 +59,7 @@ object Scylla {
         target.keyspace,
         target.table,
         columnSelector,
-        writeConf,
-        tokenRangeAccumulator = tokenRangeAccumulator
+        writeConf
       )(connector, SqlRowWriter.Factory)
   }
 
